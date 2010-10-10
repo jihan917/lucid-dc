@@ -152,5 +152,5 @@ let OmniCpp_MayCompleteScope=1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "abbreviations and snippets for C/C++
-source abc.vim
+source ~/.vim/abc.vim
 

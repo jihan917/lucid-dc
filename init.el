@@ -18,6 +18,7 @@
 
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
+(setq visible-bell t)
 (setq inhibit-startup-message t)
 (setq line-number-mode t)
 (setq column-number-mode t)
