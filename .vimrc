@@ -97,7 +97,7 @@ nmap <M-i>t a<M-i>t<Esc>
 vmap <M-i>t <Esc><M-i>tgv
 
 "type `today<Tab>' to insert current date,
-"formatted like `Sunday, October 11, 2010'.
+"formatted like `Sunday, October 10, 2010'.
 imap <silent> today<Tab> <C-R>=strftime("%A, %B ") . join(map(split(strftime("%d %Y")), 'abs(v:val)'), ', ')<CR>
 
 "type `now<Tab>' to insert current time,
