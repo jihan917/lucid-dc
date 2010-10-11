@@ -30,6 +30,10 @@ set guifont=Monaco
 
 "do not wrap lines that don't fit the window witdh
 set nowrap
+"press `Alt-O, W' to toggle wrap
+nmap <M-o>w :setlocal wrap! wrap?<CR>
+imap <M-o>w <C-o><M-o>w
+vmap <M-o>w <Esc><M-o>wgv
 
 "automatic line breaking
 setglobal textwidth=78
@@ -70,6 +74,10 @@ autocmd FileType make setlocal noexpandtab
 
 "highlight all matches when searching
 set hlsearch
+"press `Alt-O, H' to toggle hilight search
+nmap <M-o>h :setlocal hlsearch! hlsearch?<CR>
+imap <M-o>h <C-o><M-o>h
+vmap <M-o>h <Esc><M-o>hgv
 
 "incremental search
 set incsearch
@@ -83,16 +91,18 @@ set ignorecase smartcase
 "timestamps
 """""""""""
 
-"press `Alt-I, T' to insert current date and time
-map <M-i>t <Esc>a<C-R>=strftime("%c")<CR><Esc>
-imap <M-i>t <C-R>=strftime("%c")<CR>
+"press `Alt-I, T' to insert current date and time in default format.
+imap <silent> <M-i>t <C-R>=strftime("%c")<CR>
+nmap <M-i>t a<M-i>t<Esc>
+vmap <M-i>t <Esc><M-i>tgv
 
-"type `today<Tab>' to insert current date
-imap today<Tab> <C-R>=strftime("%a %b ") . join(map(split(strftime("%d %Y")), 'abs(v:val)'), ' ')<CR>
+"type `today<Tab>' to insert current date,
+"formatted like `Sunday, October 11, 2010'.
+imap <silent> today<Tab> <C-R>=strftime("%A, %B ") . join(map(split(strftime("%d %Y")), 'abs(v:val)'), ', ')<CR>
 
-"type `now<Tab>' to insert current time
-imap now<Tab> <C-R>=join(map(split(strftime("%I")), 'abs(v:val)')) . strftime(":%M %p")<CR>
-
+"type `now<Tab>' to insert current time,
+"formatted like `10:10 AM'.
+imap <silent> now<Tab> <C-R>=join(map(split(strftime("%I")), 'abs(v:val)')) . strftime(":%M %p")<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -104,16 +114,27 @@ set showcmd
 
 "line numbers
 set number
+"press `Alt-O, N' to toggle line numbers
+nmap <M-o>n :setlocal number! number?<CR>
+imap <M-o>n <C-o><M-o>n
+vmap <M-o>n <Esc><M-o>ngv
 
 "cursor position
 set ruler
 
 "highlight the current line
 set cursorline
+"press `Alt-O, C' to toggle highlighting current line
+nmap <M-o>c :setlocal cursorline! cursorline?<CR>
+imap <M-o>c <C-o><M-o>c
+vmap <M-o>c <Esc><M-o>cgv
 
 "make tabs and trailing spaces visible
 set list listchars=tab:>-,trail:-
-
+"press `Alt-O, L' to toggle visibility of tabs and trailing spaces.
+nmap <M-o>l :setlocal list! list?<CR>
+imap <M-o>l <C-o><M-o>l
+vmap <M-o>l <Esc><M-o>lgv
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
