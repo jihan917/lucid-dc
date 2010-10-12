@@ -74,7 +74,7 @@ autocmd FileType make setlocal noexpandtab
 
 "highlight all matches when searching
 set hlsearch
-"press `Alt-O, H' to toggle hilight search
+"press `Alt-O, H' to toggle highlight search
 nmap <M-o>h :setlocal hlsearch! hlsearch?<CR>
 imap <M-o>h <C-o><M-o>h
 vmap <M-o>h <Esc><M-o>hgv
@@ -84,7 +84,10 @@ set incsearch
 
 "case insensitive for all-lowercase search
 set ignorecase smartcase
-
+"press `Alt-O, I' to toggle case sensitivity of search
+nmap <M-o>i :setlocal ignorecase! ignorecase?<CR>
+imap <M-o>i <C-o><M-o>i
+vmap <M-o>i <Esc><M-o>igv
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -143,11 +146,11 @@ vmap <M-o>l <Esc><M-o>lgv
 
 "parenthesis matching
 set showmatch
-autocmd FileType cpp,html,xhtml,xml,xsd,xslt set matchpairs+=<:>
+autocmd FileType cpp,html,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
 
 "automatic indentation
 set autoindent smartindent
-autocmd FileType c,cpp,java set cindent
+autocmd FileType c,cpp,java setlocal cindent
 
 "syntax hilighting
 colorscheme rubyblue
