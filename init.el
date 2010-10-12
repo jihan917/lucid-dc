@@ -1,20 +1,29 @@
 ;; -*- emacs-lisp -*-
-;; emacs configuration file. Copyleft 2009, 2010, Ji Han
+;; `dotemacs' (C) Copyright 2009, 2010, Ji Han (jihan917<at>yahoo<dot>com)
+;; free to distribute under the GPL license
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
 ;; adjust look-and-feel under windowing system
-(unless (string= window-system nil)
+(if window-system
   (progn
     ;; (menu-bar-mode nil)
     (tool-bar-mode nil)
     (scroll-bar-mode 'right)
     (setq scroll-conservatively 300)
     (setq scroll-preserve-screen-position 1)
-    (set-frame-font "Consolas 10")
+    (set-frame-font "Monaco")
     (setq x-select-enable-clipboard t)
     (add-hook 'comint-mode-hook
       '(lambda ()
         (setq comint-process-echoes t)))))
+
+(require 'color-theme)
+(setq color-theme-load-all-themes nil)
+(load "color-theme-ruby-blue")
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-ruby-blue)))
 
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
@@ -22,6 +31,7 @@
 (setq inhibit-startup-message t)
 (setq line-number-mode t)
 (setq column-number-mode t)
+(global-linum-mode 1)
 
 (display-time-mode 1)
 (setq display-time-24hr-format t)
@@ -41,6 +51,17 @@
 (global-font-lock-mode t)
 (transient-mark-mode t)
 (show-paren-mode t)
+
+;; time stamps
+(defun today()
+  "insert today's date as string, formatted like Sunday, October 10, 2010."
+  (interactive "p")
+  (insert (format-time-string "%A, %B %e, %Y")))
+
+(defun now()
+  "insert current time as string, formatted like 10:10 AM."
+  (interactive "p")
+  (insert (format-time-string "%_I:%M %p")))
 
 ;; parenthesis matching
 (defun match-paren (arg)
@@ -92,7 +113,7 @@
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
 ;;; w3m (a poor man's chrome/firefox/opera/safari)
-(if (string= window-system nil)
+(unless window-system
   (progn
     (setq browse-url-browser-function 'w3m-browse-url)
     (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
@@ -114,13 +135,11 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
-;;; Tuareg mode (Linux only--O'Caml crashes randomly under Vista/Windows 7)
-(unless (string= window-system "w32")
-  (progn
-    (load "append-tuareg")
-    (load "custom-tuareg")))
+;;; Tuareg mode
+(load "append-tuareg")
+(load "custom-tuareg")
 
-;;; SLIME (Clozure CL for Window x86/Linux amd_64)
+;;; SLIME
 (set-language-environment "utf-8")
 (setq inferior-lisp-program
   (cond ((string= window-system "w32") "/opt/ccl/wx86cl -K utf-8")
