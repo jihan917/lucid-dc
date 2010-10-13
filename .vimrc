@@ -146,7 +146,7 @@ autocmd FileType html,xhtml,xml,xsd,xslt setlocal nolist
 
 "parenthesis matching
 set showmatch
-autocmd FileType cpp,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
+autocmd FileType cpp,html,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
 
 "automatic completion for punctuations matched in pairs
 inoremap ( ()<Left>
