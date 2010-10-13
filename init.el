@@ -53,12 +53,12 @@
 (show-paren-mode t)
 
 ;; time stamps
-(defun today()
+(defun today ()
   "insert today's date as string, formatted like Sunday, October 10, 2010."
   (interactive "p")
   (insert (format-time-string "%A, %B %e, %Y")))
 
-(defun now()
+(defun now ()
   "insert current time as string, formatted like 10:10 AM."
   (interactive "p")
   (insert (format-time-string "%_I:%M %p")))
