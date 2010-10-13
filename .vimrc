@@ -62,10 +62,9 @@ set backspace=indent,eol,start
 "allow <Left>/<Right> to move across line boundary
 set whichwrap=b,s,<,>,[,]
 
-"always expand tabs to spaces, except for makefiles
+"tab width and expansion
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-autocmd FileType make setlocal noexpandtab
-
+autocmd FileType make,html,xhtml,xml,xsd,xslt setlocal noexpandtab
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -138,6 +137,7 @@ set list listchars=tab:>-,trail:-
 nmap <M-o>l :setlocal list! list?<CR>
 imap <M-o>l <C-o><M-o>l
 vmap <M-o>l <Esc><M-o>lgv
+autocmd FileType html,xhtml,xml,xsd,xslt setlocal nolist
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -146,7 +146,13 @@ vmap <M-o>l <Esc><M-o>lgv
 
 "parenthesis matching
 set showmatch
-autocmd FileType cpp,html,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
+autocmd FileType cpp,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
+
+"automatic completion for punctuations matched in pairs
+inoremap ( ()<Left>
+inoremap [ []<Left>
+inoremap { {}<Left>
+inoremap " ""<Left>
 
 "automatic indentation
 set autoindent smartindent
@@ -177,4 +183,7 @@ let OmniCpp_MayCompleteScope=1
 
 "abbreviations and snippets for C/C++
 source ~/.vim/abc.vim
+
+"abbreviations and snippets for HTML/XHTML
+source ~/.vim/abhtml.vim
 
