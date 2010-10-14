@@ -66,6 +66,7 @@ set whichwrap=b,s,<,>,[,]
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 autocmd FileType make,html,xhtml,xml,xsd,xslt setlocal noexpandtab
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "search
@@ -88,6 +89,7 @@ nmap <M-o>i :setlocal ignorecase! ignorecase?<CR>
 imap <M-o>i <C-o><M-o>i
 vmap <M-o>i <Esc><M-o>igv
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "timestamps
@@ -105,6 +107,18 @@ imap <silent> today<Tab> <C-R>=strftime("%A, %B ") . join(map(split(strftime("%d
 "type `now<Tab>' to insert current time,
 "formatted like `10:10 AM'.
 imap <silent> now<Tab> <C-R>=join(map(split(strftime("%I")), 'abs(v:val)')) . strftime(":%M %p")<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"automatic backup
+"""""""""""""""""
+
+set autowrite
+set backupdir=./.backup,~/.backup,.,$TEMP
+set backup
+autocmd BufWritePre * let &bex = '_' . strftime("%Y%m%d%H%M%S")
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -139,6 +153,7 @@ imap <M-o>l <C-o><M-o>l
 vmap <M-o>l <Esc><M-o>lgv
 autocmd FileType html,xhtml,xml,xsd,xslt setlocal nolist
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "intellisense
@@ -159,7 +174,9 @@ set autoindent smartindent
 autocmd FileType c,cpp,java setlocal cindent
 
 "syntax hilighting
-colorscheme rubyblue
+if has("gui_running")
+    colorscheme rubyblue
+endif
 syntax enable
 
 "code folding

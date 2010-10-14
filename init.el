@@ -12,18 +12,18 @@
     (setq scroll-conservatively 300)
     (setq scroll-preserve-screen-position 1)
     (set-frame-font "Monaco")
+    (require 'color-theme)
+    (setq color-theme-load-all-themes nil)
+    (load "color-theme-ruby-blue")
+    (eval-after-load "color-theme"
+      '(progn
+         (color-theme-initialize)
+         (color-theme-ruby-blue)))
     (setq x-select-enable-clipboard t)
     (add-hook 'comint-mode-hook
       '(lambda ()
         (setq comint-process-echoes t)))))
 
-(require 'color-theme)
-(setq color-theme-load-all-themes nil)
-(load "color-theme-ruby-blue")
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-ruby-blue)))
 
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
@@ -89,11 +89,14 @@
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
 ;;; AucTex
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
+
+(if window-system
+  (progn
+    (load "auctex.el" nil t t)
+    (load "preview-latex.el" nil t t)
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq-default TeX-master nil)))
 
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
