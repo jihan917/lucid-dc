@@ -54,7 +54,7 @@
 
 ;; time stamps
 (defun today ()
-  "insert today's date as string, formatted like Sunday, October 10, 2010."
+  "insert current date as string, formatted like Sunday, October 10, 2010."
   (interactive "p")
   (insert (format-time-string "%A, %B %e, %Y")))
 

@@ -173,7 +173,7 @@ inoremap " ""<Left>
 set autoindent smartindent
 autocmd FileType c,cpp,java setlocal cindent
 
-"syntax hilighting
+"syntax highlighting
 if has("gui_running")
     colorscheme rubyblue
 endif
