@@ -146,7 +146,7 @@ imap <M-o>c <C-o><M-o>c
 vmap <M-o>c <Esc><M-o>cgv
 
 "make tabs and trailing spaces visible
-set list listchars=tab:>-,trail:-
+set nolist listchars=tab:>-,trail:-
 "press `Alt-O, L' to toggle visibility of tabs and trailing spaces.
 nmap <M-o>l :setlocal list! list?<CR>
 imap <M-o>l <C-o><M-o>l
@@ -198,9 +198,9 @@ let OmniCpp_MayCompleteScope=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"abbreviations and snippets for C/C++
-source ~/.vim/abc.vim
+"snippets for C/C++
+source ~/.vim/imapc.vim
 
-"abbreviations and snippets for HTML/XHTML
-source ~/.vim/abhtml.vim
+"snippets for HTML/XHTML
+source ~/.vim/imaphtml.vim
 
