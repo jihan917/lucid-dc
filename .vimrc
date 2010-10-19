@@ -6,7 +6,12 @@
 "encoding and language
 """"""""""""""""""""""
 
-set fileencodings=ucs-bom,utf-8,gbk,big5,euc-jp,euc-kr,latin1
+if has("multi_byte_encoding")
+    "default encoding (usu. current locale) is multi-byte
+    set fileencodings=ucs-bom,utf-8,default,gbk,big5,euc-jp,euc-kr,latin1
+else
+    set fileencodings=ucs-bom,utf-8,gbk,big5,euc-jp,euc-kr,default
+endif
 
 set encoding=utf-8
 if has("win32")
@@ -19,14 +24,78 @@ set langmenu=en_US.utf-8
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"improved user experience
+"""""""""""""""""""""""""
+
+"not vi-compatible
+set nocompatible
+
+"turn off (vulnerable) modeline parsing
+set nomodeline
+
+"enable filetype specific configuration
+filetype plugin indent on
+
+"visual bell instead of the (annoying) ring bell
+set visualbell t_vb=
+
+"use system clipboard
+set clipboard=unnamed
+
+"allow backspacing over autoindent, line breaks and the start of insert
+set backspace=indent,eol,start
+
+"allow <Left>/<Right> to move across line boundary
+set whichwrap=b,s,<,>,[,]
+
+"tab width and expansion
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+au FileType make setl ts=8 sts=8 sw=8 noet
+au FileType css,html,javascript,xhtml,xml,xsd,xslt setl ts=2 sts=2 sw=2 noet
+
+"command history
+set history=800
+
+"automatic backup
+set autowriteall
+set backup backupdir=./.backup,~/.backup,.,$TEMP
+au BufWritePre * let &bex = '_' . strftime("%Y%m%d%H%M%S")
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"timestamps
+"""""""""""
+
+"press `Alt-I, T' to insert current date and time in default format.
+imap <silent> <M-i>t <C-R>=strftime("%c")<CR>
+nmap <M-i>t a<M-i>t<Esc>
+vmap <M-i>t <Esc><M-i>tgv
+
+"type `today<Tab>' to insert current date,
+"formatted like `Sunday, October 10, 2010'.
+imap <silent> today<Tab> <C-R>=strftime("%A, %B ") . join(map(split(strftime("%d %Y")), 'abs(v:val)'), ', ')<CR>
+
+"type `now<Tab>' to insert current time,
+"formatted like `10:10 AM'.
+imap <silent> now<Tab> <C-R>=join(map(split(strftime("%I")), 'abs(v:val)')) . strftime(":%M %p")<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 "visual appearance and format
 """""""""""""""""""""""""""""
 
 "no (ugly) toolbar
 set guioptions-=T
 
-"font
-set guifont=Monaco
+"set guifont
+function SetGuiFont ()
+    try | set guifont=Monaco | return | catch | endtry
+    try | set guifont=Consolas | return | catch | endtry
+    try | set guifont=Lucida\ Console | return | catch | endtry
+endfunction
+call SetGuiFont()
 
 "do not wrap lines that don't fit the window witdh
 set nowrap
@@ -41,30 +110,36 @@ setglobal textwidth=78
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"improved user experience
-"""""""""""""""""""""""""
+"visual cues
+""""""""""""
 
-"not vi-compatible
-set nocompatible
+"show (partial) command
+set showcmd
 
-"turn off (vulnerable) modeline parsing
-set nomodeline
+"show line numbers
+set number
+"press `Alt-O, N' to toggle line numbers
+nmap <M-o>n :setlocal number! number?<CR>
+imap <M-o>n <C-o><M-o>n
+vmap <M-o>n <Esc><M-o>ngv
 
-"visual bell instead of (annoying) bell ring
-set visualbell t_vb=
+"show cursor position
+set ruler
 
-"use system clipboard
-set clipboard=unnamed
+"highlight the current line
+set nocursorline
+"press `Alt-O, C' to toggle highlighting current line
+nmap <M-o>c :setlocal cursorline! cursorline?<CR>
+imap <M-o>c <C-o><M-o>c
+vmap <M-o>c <Esc><M-o>cgv
 
-"allow backspacing over autoindent, line breaks and the start of insert
-set backspace=indent,eol,start
-
-"allow <Left>/<Right> to move across line boundary
-set whichwrap=b,s,<,>,[,]
-
-"tab width and expansion
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-autocmd FileType make,html,xhtml,xml,xsd,xslt setlocal noexpandtab
+"use printable chars to list tabs and trailing spaces
+set nolist listchars=tab:>-,trail:-
+"press `Alt-O, L' to toggle listing of tabs and trailing spaces.
+nmap <M-o>l :setlocal list! list?<CR>
+imap <M-o>l <C-o><M-o>l
+vmap <M-o>l <Esc><M-o>lgv
+"au FileType css,html,javascript,xhtml,xml,xsd,xslt setlocal nolist
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -92,97 +167,44 @@ vmap <M-o>i <Esc><M-o>igv
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"timestamps
-"""""""""""
-
-"press `Alt-I, T' to insert current date and time in default format.
-imap <silent> <M-i>t <C-R>=strftime("%c")<CR>
-nmap <M-i>t a<M-i>t<Esc>
-vmap <M-i>t <Esc><M-i>tgv
-
-"type `today<Tab>' to insert current date,
-"formatted like `Sunday, October 10, 2010'.
-imap <silent> today<Tab> <C-R>=strftime("%A, %B ") . join(map(split(strftime("%d %Y")), 'abs(v:val)'), ', ')<CR>
-
-"type `now<Tab>' to insert current time,
-"formatted like `10:10 AM'.
-imap <silent> now<Tab> <C-R>=join(map(split(strftime("%I")), 'abs(v:val)')) . strftime(":%M %p")<CR>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"automatic backup
-"""""""""""""""""
-
-set autowrite
-set backupdir=./.backup,~/.backup,.,$TEMP
-set backup
-autocmd BufWritePre * let &bex = '_' . strftime("%Y%m%d%H%M%S")
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"visual cues
-""""""""""""
-
-"show (partial) command
-set showcmd
-
-"line numbers
-set number
-"press `Alt-O, N' to toggle line numbers
-nmap <M-o>n :setlocal number! number?<CR>
-imap <M-o>n <C-o><M-o>n
-vmap <M-o>n <Esc><M-o>ngv
-
-"cursor position
-set ruler
-
-"highlight the current line
-set cursorline
-"press `Alt-O, C' to toggle highlighting current line
-nmap <M-o>c :setlocal cursorline! cursorline?<CR>
-imap <M-o>c <C-o><M-o>c
-vmap <M-o>c <Esc><M-o>cgv
-
-"make tabs and trailing spaces visible
-set nolist listchars=tab:>-,trail:-
-"press `Alt-O, L' to toggle visibility of tabs and trailing spaces.
-nmap <M-o>l :setlocal list! list?<CR>
-imap <M-o>l <C-o><M-o>l
-vmap <M-o>l <Esc><M-o>lgv
-autocmd FileType html,xhtml,xml,xsd,xslt setlocal nolist
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 "intellisense
 """""""""""""
 
 "parenthesis matching
 set showmatch
-autocmd FileType cpp,html,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
+au FileType html,xhtml,xml,xsd,xslt setlocal matchpairs+=<:>
 
-"automatic completion for punctuations matched in pairs
+"automatic completion of punctuations matched in pairs
 inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
-inoremap " ""<Left>
 
-"automatic indentation
+"automatic completion of double quotes
+au FileType * inoremap <buffer> " ""<Left>
+au FileType vim iunmap <buffer> "
+
+"indentation
 set autoindent smartindent
-autocmd FileType c,cpp,java setlocal cindent
-
-"syntax highlighting
-if has("gui_running")
-    colorscheme rubyblue
-endif
-syntax enable
+au FileType c,cpp,java setlocal cindent
 
 "code folding
 set foldmethod=syntax
 
-filetype plugin indent on
+"syntax highlighting
+if has("gui_running")
+    let s:schemes = ['blackboard', 'rubyblue', 'torte', 'wombat']
+    exec "colorscheme " . s:schemes[strftime("%S") / 15]
+endif
+syntax enable
+
+"add jQuery support to javascript syntax highlighting
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+
+"use XML compliant HTML for TOhtml
+let g:html_use_xhtml = 1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "ctags
 set tags=tags;/
@@ -198,8 +220,10 @@ let OmniCpp_MayCompleteScope=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"FIXME: my own snippet completion conflicts with snipMate key mapping.
+
 "snippets for C/C++
-source ~/.vim/imapc.vim
+source ~/.vim/imapcpp.vim
 
 "snippets for HTML/XHTML
 source ~/.vim/imaphtml.vim
