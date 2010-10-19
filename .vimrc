@@ -91,9 +91,9 @@ set guioptions-=T
 
 "set guifont
 function SetGuiFont ()
-    try | set guifont=Monaco | return | catch | endtry
-    try | set guifont=Consolas | return | catch | endtry
-    try | set guifont=Lucida\ Console | return | catch | endtry
+    try | set guifont=Monaco:h10 | return | catch | endtry
+    try | set guifont=Consolas:h12 | return | catch | endtry
+    try | set guifont=Lucida\ Console:h14 | return | catch | endtry
 endfunction
 call SetGuiFont()
 
