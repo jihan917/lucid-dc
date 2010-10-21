@@ -89,7 +89,6 @@
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 
 ;;; AucTex
-
 (if window-system
   (progn
     (load "auctex.el" nil t t)
@@ -127,9 +126,25 @@
 
 ;;; cedet
 (require 'cedet)
+(global-ede-mode t)
+;; the following does not work for emacs 23.2 cedet!
+;; (semantic-load-enable-gaudy-code-helpers)
+;; (require 'semantic-ia)
+(semantic-mode 1)
+
+;;; company mode
+;; provides `company-complete'
+;; as `semantic-ia-complete-symbol-menu' is missing
+(autoload 'company-mode "company" nil t)
 
 ;;; ecb
-(require 'ecb)
+(require 'ecb-autoloads)
+
+;;; yasnippet
+(require 'yasnippet)
+(setq yas/root-directory "/opt/emacs/site-lisp/yasnippet-0.6.1c")
+(yas/load-directory yas/root-directory)
+(yas/global-mode)
 
 ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;; ;;;;;;;;
 

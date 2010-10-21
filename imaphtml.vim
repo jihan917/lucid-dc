@@ -12,7 +12,7 @@ function IMapHtml ()
     inoremap <buffer> Html<Tab> <?xml version="1.0" encoding="UTF-8"?><CR><!DOCTYPE html <CR>PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"<CR>"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><CR><CR><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><CR><head><CR><title> {{TITLE}} </title><CR><meta http-equiv="content-type" content="text/html; charset=utf-8" /><CR></head><CR><CR><body><CR><CR></body><CR></html><CR><Up><Up><Up>
 
     "external javascript
-    inoremap <buffer> js<Tab> <script type="text/javascript" src="{{SCRIPT}}" charset="UTF-8"></script>
+    inoremap <buffer> js<Tab> <script type="text/javascript" src="{{SRC}}" charset="UTF-8"></script>
 
     "inline javascript
     inoremap <buffer> script<Tab> <script type="text/javascript">//<![CDATA[<CR><CR>//]]></script><CR><Up><Up>
@@ -22,6 +22,7 @@ function IMapHtml ()
     inoremap <buffer> link<Tab> <link href="{{HREF}}" rel="{{REL}}" type="{{TYPE}}" />
 
     inoremap <buffer> div<Tab> <div><CR><CR></div><Up>
+    inoremap <buffer> span<Tab> <span>  </span><C-o>8h
 
     inoremap <buffer> h1<Tab> <h1>  </h1><Esc>6ha
     inoremap <buffer> h2<Tab> <h2>  </h2><Esc>6ha
@@ -41,6 +42,8 @@ function IMapHtml ()
     inoremap <buffer> a<Tab> <a href="{{HREF}}">  </a><Esc>5ha
     inoremap <buffer> img<Tab> <img src="{{SRC}}" alt="{{ALT}}" />
 
+    inoremap <buffer> form<Tab> <form method="{{METHOD}}" id="{{ID}}" action="{{ACTION}}"><CR><CR></form><Up>
+    inoremap <buffer> input<Tab> <input type="{{TYPE}}" name="{{NAME}}" value="{{VALUE}}" />
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
