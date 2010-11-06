@@ -3,7 +3,7 @@
 "free to distribute under the GPL license
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-function IMapC ()
+function IMapCpp ()
 
     inoremap <buffer> inc<Tab> #include <><Left>
     inoremap <buffer> inclu<Tab> #include ""<Left>
@@ -11,7 +11,7 @@ function IMapC ()
     inoremap <buffer> inccc<Tab> #include <algorithm><CR>#include <bitset><CR>#include <deque><CR>#include <fstream><CR>#include <functional><CR>#include <iomanip><CR>#include <iostream><CR>#include <iterator><CR>#include <list><CR>#include <map><CR>#include <numeric><CR>#include <queue><CR>#include <set><CR>#include <sstream><CR>#include <stack><CR>#include <string><CR>#include <unordered_map><CR>#include <unordered_set><CR>#include <utility><CR>#include <valarray><CR>#include <vector><CR>
 
     inoremap <buffer> ifdef<Tab> #if defined()<CR>#endif<CR><Up><Up><End><Left>
-    inoremap <buffer> once<Tab> <C-o>mm<C-o>gg#if !defined(<C-R>=toupper(tr(expand("%:t"), '.', '_')) . '_INCLUDED__'<CR>)<CR>#define <C-R>=toupper(tr(expand("%:t"), '.', '_')) . '_INCLUDED__'<CR><CR><CR><C-o>G<C-o>A<CR>#endif /* !defined(<C-R>=toupper(tr(expand("%:t"), '.', '_')) . '_INCLUDED__'<CR>) */<CR><C-o>`m
+    inoremap <buffer> once<Tab> <C-o>mm<C-o>gg#if !defined(<C-R>=toupper(tr(expand("%:t"), '.', '_')) . '_INCLUDED'<CR>)<CR>#define <C-R>=toupper(tr(expand("%:t"), '.', '_')) . '_INCLUDED__'<CR><CR><CR><C-o>G<C-o>A<CR>#endif /* !defined(<C-R>=toupper(tr(expand("%:t"), '.', '_')) . '_INCLUDED__'<CR>) */<CR><C-o>`m
 
     inoremap <buffer> main<Tab> int main(int argc, char **argv)<CR>{<CR><CR>return 0;<CR>}<CR><Up><Up><Up><Tab>
 
@@ -37,4 +37,4 @@ function IMapC ()
 
 endfunction
 
-autocmd FileType c,cpp call IMapC()
+autocmd FileType c,cpp call IMapCpp()

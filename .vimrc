@@ -24,48 +24,47 @@ set langmenu=en_US.utf-8
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"improved user experience
-"""""""""""""""""""""""""
+"vim is vi _improved_.
+""""""""""""""""""""""
 
-"not vi-compatible
+"not limited to vi-compatible.
 set nocompatible
 
-"turn off (vulnerable) modeline parsing
+"turn off (vulnerable) modeline parsing.
 set nomodeline
 
-"enable filetype specific configuration
-filetype plugin indent on
-
-"visual bell instead of the (annoying) ring bell
+"visual bell instead of the (annoying) ring bell.
 set visualbell t_vb=
 
-"use system clipboard
-set clipboard=unnamed
-
-"allow backspacing over autoindent, line breaks and the start of insert
-set backspace=indent,eol,start
-
-"allow <Left>/<Right> to move across line boundary
-set whichwrap=b,s,<,>,[,]
-
-"tab width and expansion
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-au FileType make setl ts=8 sts=8 sw=8 noet
-au FileType css,html,javascript,xhtml,xml,xsd,xslt setl ts=2 sts=2 sw=2 noet
+"remember last cursor position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 "command history
 set history=800
 
-"automatic backup
-set autowriteall
-set backup backupdir=./.backup,~/.backup,.,$TEMP
-au BufWritePre * let &bex = '_' . strftime("%Y%m%d%H%M%S")
+"enable filetype specific configuration.
+filetype plugin indent on
+
+"tab expansion
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+au FileType make setl ts=8 sts=8 sw=8 noet
+au FileType css,html,javascript,xhtml,xml,xsd,xslt setl ts=2 sts=2 sw=2 noet
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"timestamps
-"""""""""""
+"line transposing
+nmap <M-up> <Plug>upAndDownUp
+nmap <M-down> <Plug>upAndDownDown
+imap <M-up> <Plug>upAndDownInsertUp
+imap <M-down> <Plug>upAndDownInsertDown
+vmap <M-up> <Plug>upAndDownVisualUp
+vmap <M-down> <Plug>upAndDownVisualDown
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"time stamps
+""""""""""""
 
 "press `Alt-I, T' to insert current date and time in default format.
 imap <silent> <M-i>t <C-R>=strftime("%c")<CR>
@@ -79,6 +78,32 @@ imap <silent> today<Tab> <C-R>=strftime("%A, %B ") . join(map(split(strftime("%d
 "type `now<Tab>' to insert current time,
 "formatted like `10:10 AM'.
 imap <silent> now<Tab> <C-R>=join(map(split(strftime("%I")), 'abs(v:val)')) . strftime(":%M %p")<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"behave a bit more like `normal' GUI application
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+"use system clipboard
+set clipboard=unnamed
+
+"allow backspacing over autoindent, line breaks and the start of insert
+set backspace=indent,eol,start
+
+"allow <Left>/<Right> to move across line boundary
+set whichwrap=b,s,<,>,[,]
+
+"automatic backup
+set autowriteall
+set backup backupdir=./.backup,~/.backup,.,$TEMP
+au BufWritePre * let &bex = '_' . strftime("%Y%m%d%H%M%S")
+
+"minibufexpl
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -97,6 +122,9 @@ function SetGuiFont ()
 endfunction
 call SetGuiFont()
 
+"gui font for wide characters (needs to be monospace)
+try | set guifontwide=NSimsun | catch | endtry
+
 "do not wrap lines that don't fit the window witdh
 set nowrap
 "press `Alt-O, W' to toggle wrap
@@ -104,7 +132,7 @@ nmap <M-o>w :setlocal wrap! wrap?<CR>
 imap <M-o>w <C-o><M-o>w
 vmap <M-o>w <Esc><M-o>wgv
 
-"automatic line breaking
+"automatically break lines (actually inserting <EOL>s)
 setglobal textwidth=78
 
 
@@ -127,19 +155,19 @@ vmap <M-o>n <Esc><M-o>ngv
 set ruler
 
 "highlight the current line
-set nocursorline
+set cursorline
 "press `Alt-O, C' to toggle highlighting current line
 nmap <M-o>c :setlocal cursorline! cursorline?<CR>
 imap <M-o>c <C-o><M-o>c
 vmap <M-o>c <Esc><M-o>cgv
 
 "use printable chars to list tabs and trailing spaces
-set nolist listchars=tab:>-,trail:-
+set list listchars=tab:>-,trail:-
 "press `Alt-O, L' to toggle listing of tabs and trailing spaces.
 nmap <M-o>l :setlocal list! list?<CR>
 imap <M-o>l <C-o><M-o>l
 vmap <M-o>l <Esc><M-o>lgv
-"au FileType css,html,javascript,xhtml,xml,xsd,xslt setlocal nolist
+au FileType css,html,javascript,xhtml,xml,xsd,xslt setlocal nolist
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -164,6 +192,18 @@ nmap <M-o>i :setlocal ignorecase! ignorecase?<CR>
 imap <M-o>i <C-o><M-o>i
 vmap <M-o>i <Esc><M-o>igv
 
+if has("unix")
+    "let grep always print filename
+    set grepprg=grep\ -nH\ $*\ /dev/null
+endif
+
+"search current word in files
+nmap <S-F3> :grep <cword> %:p:h/*<CR>
+
+if exists('+shellslash')
+    "use forward slash as separator
+    set shellslash
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -188,12 +228,15 @@ set autoindent smartindent
 au FileType c,cpp,java setlocal cindent
 
 "code folding
-set foldmethod=syntax
+set foldmethod=marker
 
 "syntax highlighting
 if has("gui_running")
-    let s:schemes = ['blackboard', 'rubyblue', 'torte', 'wombat']
+    "let's do a lottery
+    let s:schemes = ['desert', 'murphy', 'rubyblue', 'torte']
     exec "colorscheme " . s:schemes[strftime("%S") / 15]
+else
+    "every colorscheme sucks under terminal. the default sucks less.
 endif
 syntax enable
 
@@ -213,18 +256,22 @@ set tags=tags;/
 let Tlist_Exit_OnlyWindow=1
 let Tlist_Sort_Type="name"
 
+"Omni_completion
+set ofu=syntaxcomplete#Complete
 "OmniCppComplete
-let OmniCpp_DisplayMode=1
+let OmniCpp_NamespaceSearch=1
+let OmniCpp_GlobalScopeSearch=1
+let OmniCpp_ShowAccess=1
+let OmniCpp_ShowPrototypeInAbbr=1
+let OmniCpp_MayCompleteDot=1
+let OmniCpp_MayCompleteArrow=1
 let OmniCpp_MayCompleteScope=1
+
+"supertab
+let g:SuperTabDefaultCompletionType="context"
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"FIXME: my own snippet completion conflicts with snipMate key mapping.
-
-"snippets for C/C++
-source ~/.vim/imapcpp.vim
-
-"snippets for HTML/XHTML
-source ~/.vim/imaphtml.vim
-
+"Last Updated: Saturday, November 6, 2010
+".vimrc ends here
